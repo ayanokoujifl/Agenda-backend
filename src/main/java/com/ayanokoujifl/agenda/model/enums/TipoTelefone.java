@@ -2,7 +2,6 @@ package com.ayanokoujifl.agenda.model.enums;
 
 import lombok.Getter;
 
-@Getter
 public enum TipoTelefone {
 
 	CASA(0), TRABALHO(1), OUTRO(2);
@@ -27,5 +26,9 @@ public enum TipoTelefone {
 			}
 		}
 		throw new IllegalArgumentException("ID inválido");
+	}
+
+	public int getId() {
+		return id;
 	}
 }

@@ -4,6 +4,7 @@ import java.io.Serializable;
 import java.util.HashSet;
 import java.util.Set;
 
+import com.ayanokoujifl.agenda.dto.ContatoDTO;
 import com.ayanokoujifl.agenda.model.enums.TipoContato;
 
 import jakarta.persistence.Entity;
@@ -30,14 +31,32 @@ public class Contato implements Serializable {
 	private Set<TipoContato> tipo = new HashSet<>();
 
 	public Contato() {
-		 new Telefone();
+	}
+
+	public Contato(ContatoDTO objDto) {
+		this.nome = objDto.getNome();
+		this.endereco = objDto.getEndereco();
+		this.tipo = objDto.getTipoContato();
 	}
 
 	public Contato(String nome, String endereco, Integer tipo) {
 		super();
-		new Telefone();
 		this.nome = nome;
 		this.endereco = endereco;
 		this.tipo.add(TipoContato.toEnum(tipo));
+	}
+
+	public Contato(Long id, String nome, Telefone telefone, String endereco, TipoContato tipo) {
+		super();
+		this.id = id;
+		this.nome = nome;
+		this.telefones.add(telefone);
+		this.endereco = endereco;
+		this.tipo.add(tipo);
+	}
+
+	public Contato(String nome, Telefone telefone, String endereco, TipoContato tipoContato) {
+		new Telefone(telefone.getNumeroTelefone(), tipoContato.getId());
+		new Contato(null, nome, telefone, endereco, tipoContato);
 	}
 }

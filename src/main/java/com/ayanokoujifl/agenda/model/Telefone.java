@@ -3,6 +3,7 @@ package com.ayanokoujifl.agenda.model;
 import java.util.HashSet;
 import java.util.Set;
 
+import com.ayanokoujifl.agenda.dto.ContatoDTO;
 import com.ayanokoujifl.agenda.model.enums.TipoTelefone;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
@@ -32,9 +33,20 @@ public class Telefone {
 	public Telefone() {
 	}
 
+	public Telefone(ContatoDTO objDto) {
+		this.numeroTelefone=objDto.getTelefone();
+		this.tipo=objDto.getTipoTelefone();
+	}
+	
 	public Telefone(String numero_telefone, Integer tipo) {
 		super();
 		this.numeroTelefone = numero_telefone;
 		this.tipo.add(TipoTelefone.toEnum(tipo));
 	}
+
+	public Telefone(String numeroTelefone) {
+		super();
+		this.numeroTelefone = numeroTelefone;
+	}
+
 }
