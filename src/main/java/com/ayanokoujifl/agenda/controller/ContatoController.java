@@ -53,10 +53,12 @@ public class ContatoController {
 	@PostMapping
 	public ResponseEntity<Void> saveContato(@RequestBody ContatoDTO objDto) {
 		Telefone telefone = new Telefone(objDto);
-		telefoneRepository.save(telefone);
 		Contato contato = new Contato(objDto);
 		contato.getTelefones().add(telefone);
+		telefone.setContato(contato);
+
 		repository.saveAndFlush(contato);
+		telefoneRepository.saveAndFlush(telefone);
 		URI uri = ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}").buildAndExpand(contato.getId())
 				.toUri();
 		return ResponseEntity.created(uri).build();
@@ -64,7 +66,9 @@ public class ContatoController {
 
 	@PutMapping(value = "/{id}")
 	public ResponseEntity<Contato> updateContato(@PathVariable Long id, @RequestBody Contato contato) {
+		Contato oldObj = repository.findById(id).get();
 		contato.setId(id);
+		updateData(oldObj, contato);
 		repository.saveAndFlush(contato);
 		return ResponseEntity.accepted().body(contato);
 	}
